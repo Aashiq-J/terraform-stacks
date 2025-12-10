@@ -1,0 +1,10 @@
+{
+  "terraform_source_bundle": 1,
+  "packages": [
+    {
+      "source": "git::https://github.com/Aashiq-J/terraform-ibm-resource-group.git",
+      "local": "qyxIdDIZMsmu01-Aj-FFU66M6CKMg22LrsiEK7vLXDA",
+      "meta": {}
+    }
+  ]
+}
