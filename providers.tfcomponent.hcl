@@ -10,7 +10,7 @@ required_providers {
 
 
 
-provider "ibm" "this" {
+provider "ibm" "configurations" {
   config {
     ibmcloud_api_key = var.ibmcloud_api_key
     region           = var.region

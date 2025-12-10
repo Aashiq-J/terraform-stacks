@@ -1,19 +1,19 @@
 component "resource_group" {
   source  = "terraform-ibm-modules/resource-group/ibm"
-  version = "1.4.0"
+  version = "~> 1.4.3"
 
   inputs = {
     resource_group_name = "${var.prefix}-resource-group"
   }
 
   providers = {
-    azurerm = provider.ibm.this
+    azurerm = provider.ibm.configurations
   }
 }
 
 component "network" {
   source  = "terraform-ibm-modules/landing-zone-vpc/ibm"
-  version = "v8.10.1"
+  version = "~> 8.10.1"
 
   inputs = {
     resource_group_id = component.resource_group.resource_group_id
@@ -41,7 +41,7 @@ component "network" {
   }
 
   providers = {
-    azurerm = provider.ibm.this
+    azurerm = provider.ibm.configurations
   }
 }
 
