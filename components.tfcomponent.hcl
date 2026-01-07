@@ -13,7 +13,7 @@ component "resource_group" {
 
 component "network" {
   source  = "terraform-ibm-modules/landing-zone-vpc/ibm"
-  version = "v8.10.4"
+  version = "8.10.4"
 
   inputs = {
     resource_group_id = component.resource_group.resource_group_id
