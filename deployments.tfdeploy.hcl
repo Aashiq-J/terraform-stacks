@@ -1,15 +1,23 @@
 
+store "varset" "ibm_credentials" {
+  id       = "varset-7X1yJ4nwvovXU9MD"
+  category = "terraform"
+}
+
 deployment "us-east" {
   inputs = {
-    prefix        = "east"
-    region        = "us-east"
-    resource_tags = ["us-east"]
+    prefix           = "east"
+    region           = "us-east"
+    resource_tags    = ["us-east"]
+    ibmcloud_api_key = store.varset.ibm_credentials.ibmcloud_api_key
   }
 }
+
 deployment "ca-tor" {
   inputs = {
-    prefix        = "tor"
-    region        = "ca-tor"
-    resource_tags = ["ca-tor"]
+    prefix           = "tor"
+    region           = "ca-tor"
+    resource_tags    = ["ca-tor"]
+    ibmcloud_api_key = store.varset.ibm_credentials.ibmcloud_api_key
   }
 }
