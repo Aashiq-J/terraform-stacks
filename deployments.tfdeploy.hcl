@@ -21,3 +21,8 @@ deployment "ca-tor" {
     ibmcloud_api_key = store.varset.ibm_credentials.ibmcloud_api_key
   }
 }
+
+publish_output "resource_group_name" {
+  description = "The networking Stack's VPC's ID."
+  value       = deployment.us-east.resource_group_name
+}
