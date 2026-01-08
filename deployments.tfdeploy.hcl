@@ -6,7 +6,7 @@ store "varset" "ibm_credentials" {
 
 deployment "us-east" {
   inputs = {
-    prefix           = "east1"
+    prefix           = "east2"
     region           = "us-east"
     resource_tags    = ["us-east"]
     ibmcloud_api_key = store.varset.ibm_credentials.ibmcloud_api_key
