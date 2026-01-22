@@ -1,10 +1,5 @@
 component "resource_group" {
-  # source = "git::https://github.com/Aashiq-J/terraform-ibm-resource-group.git?ref=sub-module"
-  # source = "/Users/aashiqjacob/Documents/fork/terraform-ibm-resource-group"
-  source = "terraform-ibm-modules/resource-group/ibm"
-  # version = "latest"
-  version = "1.4.7"
-  # version = "1.4.3"
+  source = "git::https://github.com/Aashiq-J/terraform-ibm-resource-group.git?ref=sub-module"
 
   inputs = {
     resource_group_name = "${var.prefix}-resource-group"
