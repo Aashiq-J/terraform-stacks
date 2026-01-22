@@ -1,5 +1,9 @@
 component "resource_group" {
-  source = "git::https://github.com/Aashiq-J/terraform-ibm-resource-group.git"
+  # source = "git::https://github.com/Aashiq-J/terraform-ibm-resource-group.git?ref=sub-module"
+  # source = "/Users/aashiqjacob/Documents/fork/terraform-ibm-resource-group"
+  source = "terraform-ibm-modules/resource-group/ibm"
+  version = "latest"
+  # version = "1.4.7"
   # version = "1.4.3"
 
   inputs = {
@@ -17,37 +21,37 @@ output "resource_group_name" {
   value       = component.resource_group.resource_group_name
 }
 
-# component "network" {
-#   source  = "terraform-ibm-modules/landing-zone-vpc/ibm"
-#   version = "8.10.4"
+component "network" {
+  source  = "terraform-ibm-modules/landing-zone-vpc/ibm"
+  version = "latest"
 
-#   inputs = {
-#     resource_group_id = component.resource_group.resource_group_id
-#     region            = var.region
-#     name              = "vpc"
-#     prefix            = var.prefix
-#     tags              = var.resource_tags
-#     subnets = {
-#       zone-1 = [
-#         {
-#           name           = "subnet-a"
-#           cidr           = "10.10.10.0/24"
-#           public_gateway = true
-#           acl_name       = "vpc-acl"
-#         }
-#       ]
-#     }
-#     security_group_rules = [{
-#       name       = "allow-all-inbound-sg"
-#       direction  = "inbound"
-#       remote     = "0.0.0.0/0" # source of the traffic. 0.0.0.0/0 traffic from all across the internet.
-#       local      = "0.0.0.0/0" # A CIDR block of 0.0.0.0/0 allows traffic to all local IP addresses (or from all local IP addresses, for outbound rules).
-#       ip_version = "ipv4"
-#     }]
-#   }
+  inputs = {
+    resource_group_id = component.resource_group.resource_group_id
+    region            = var.region
+    name              = "vpc"
+    prefix            = var.prefix
+    tags              = var.resource_tags
+    subnets = {
+      zone-1 = [
+        {
+          name           = "subnet-a"
+          cidr           = "10.10.10.0/24"
+          public_gateway = true
+          acl_name       = "vpc-acl"
+        }
+      ]
+    }
+    security_group_rules = [{
+      name       = "allow-all-inbound-sg"
+      direction  = "inbound"
+      remote     = "0.0.0.0/0" # source of the traffic. 0.0.0.0/0 traffic from all across the internet.
+      local      = "0.0.0.0/0" # A CIDR block of 0.0.0.0/0 allows traffic to all local IP addresses (or from all local IP addresses, for outbound rules).
+      ip_version = "ipv4"
+    }]
+  }
 
-#   providers = {
-#     ibm = provider.ibm.this
-#   }
-# }
+  providers = {
+    ibm = provider.ibm.this
+  }
+}
 
