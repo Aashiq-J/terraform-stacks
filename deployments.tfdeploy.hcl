@@ -22,7 +22,7 @@ deployment "ca-tor" {
   }
 }
 
-publish_output "resource_group_name" {
-  description = "The networking Stack's VPC's ID."
-  value       = deployment.us-east.resource_group_name
-}
+# publish_output "resource_group_name" {
+#   description = "The networking Stack's VPC's ID."
+#   value       = deployment.us-east.resource_group_name
+# }
