@@ -1,6 +1,6 @@
 component "resource_group" {
   source  = "terraform-ibm-modules/resource-group/ibm"
-  version = "2.0.1-rc"
+  version = "2.0.2-rc"
   inputs = {
     resource_group_name = "${var.prefix}-resource-group"
   }
