@@ -1,8 +1,8 @@
 component "resource_group" {
   source  = "terraform-ibm-modules/resource-group/ibm"
-  version = "2.0.2-rc"
+  version = "1.4.8"
   inputs = {
-    resource_group_name = "${var.prefix}-resource-group"
+    resource_group_name = "${var.prefix}-rg"
   }
 
   providers = {
@@ -10,43 +10,81 @@ component "resource_group" {
   }
 }
 
-output "resource_group_name" {
-  description = "Resource group name"
-  type        = string
-  value       = component.resource_group.resource_group_name
+component "vpc" {
+  source  = "terraform-ibm-modules/landing-zone-vpc/ibm"
+  version = "8.15.3"
+
+  inputs = {
+    resource_group_id = component.resource_group.resource_group_id
+    region            = var.region
+    name              = "vpc"
+    prefix            = var.prefix
+    tags              = var.resource_tags
+    subnets = {
+      zone-1 = [
+        {
+          name           = "subnet-a"
+          cidr           = "10.10.10.0/24"
+          public_gateway = true
+          acl_name       = "vpc-acl"
+        }
+      ],
+      zone-2 = [
+        {
+          name           = "subnet-b"
+          cidr           = "10.10.20.0/24"
+          public_gateway = true
+          acl_name       = "vpc-acl"
+        }
+      ],
+      zone-3 = [
+        {
+          name           = "subnet-c"
+          cidr           = "10.10.30.0/24"
+          public_gateway = true
+          acl_name       = "vpc-acl"
+        }
+      ]
+    }
+    security_group_rules = [{
+      name       = "allow-all-inbound-sg"
+      direction  = "inbound"
+      remote     = "0.0.0.0/0"
+      local      = "0.0.0.0/0"
+      ip_version = "ipv4"
+    }]
+  }
+
+  providers = {
+    ibm = provider.ibm.this
+  }
 }
 
-# component "network" {
-#   source  = "terraform-ibm-modules/landing-zone-vpc/ibm"
-#   version = "latest"
 
-#   inputs = {
-#     resource_group_id = component.resource_group.resource_group_id
-#     region            = var.region
-#     name              = "vpc"
-#     prefix            = var.prefix
-#     tags              = var.resource_tags
-#     subnets = {
-#       zone-1 = [
-#         {
-#           name           = "subnet-a"
-#           cidr           = "10.10.10.0/24"
-#           public_gateway = true
-#           acl_name       = "vpc-acl"
-#         }
-#       ]
-#     }
-#     security_group_rules = [{
-#       name       = "allow-all-inbound-sg"
-#       direction  = "inbound"
-#       remote     = "0.0.0.0/0" # source of the traffic. 0.0.0.0/0 traffic from all across the internet.
-#       local      = "0.0.0.0/0" # A CIDR block of 0.0.0.0/0 allows traffic to all local IP addresses (or from all local IP addresses, for outbound rules).
-#       ip_version = "ipv4"
-#     }]
-#   }
+component "base_ocp" {
+  source  = "terraform-ibm-modules/base-ocp-vpc/ibm"
+  version = "3.81.7"
 
-#   providers = {
-#     ibm = provider.ibm.this
-#   }
-# }
+  inputs = {
+    cluster_name      = "${var.prefix}-ocp-cluster"
+    resource_group_id = component.resource_group.resource_group_id
+    region            = var.region
+    vpc_id            = component.vpc.vpc_id
+    vpc_subnets       = component.vpc.subnet_zone_list
+    worker_pools = [
+      {
+        subnet_prefix    = "zone-1"
+        pool_name        = "default"
+        machine_type     = "bx2.4x16"
+        workers_per_zone = 2
+        operating_system = "RHCOS"
+      }
+    ]
+    force_delete_storage = true
+  }
+
+  providers = {
+    ibm = provider.ibm.this
+  }
+}
 

@@ -6,9 +6,9 @@ store "varset" "ibm_credentials" {
 
 deployment "us-east" {
   inputs = {
-    prefix           = "east2"
-    region           = "us-east"
-    resource_tags    = ["us-east"]
+    prefix           = "ausyd"
+    region           = "au-syd"
+    resource_tags    = ["au-syd"]
     ibmcloud_api_key = store.varset.ibm_credentials.ibmcloud_api_key
   }
 }
@@ -21,8 +21,3 @@ deployment "ca-tor" {
     ibmcloud_api_key = store.varset.ibm_credentials.ibmcloud_api_key
   }
 }
-
-# publish_output "resource_group_name" {
-#   description = "The networking Stack's VPC's ID."
-#   value       = deployment.us-east.resource_group_name
-# }
