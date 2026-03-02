@@ -58,7 +58,7 @@ component "vpc" {
   providers = {
     ibm       = provider.ibm.this
     time      = provider.time.this
-    # terraform = provider.terraform.this
+    terraform = provider.terraform.this
   }
 }
 
@@ -92,7 +92,7 @@ component "base_ocp" {
     kubernetes = provider.kubernetes.this
     null       = provider.null.this
     random     = provider.random.this
-    # terraform  = provider.terraform.this
+    terraform  = provider.terraform.this
   }
 }
 

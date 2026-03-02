@@ -32,6 +32,10 @@ required_providers {
   #   source  = "hashicorp/terraform"
   #   version = ">= 1.14.6"
   # }
+  terraform = {
+    source = "terraform.io/builtin/terraform"
+    # Optionally add version constraint
+  }
 }
 
 provider "ibm" "this" {
@@ -66,3 +70,7 @@ provider "random" "this" {
   }
 }
 
+provider "terraform" "this" {
+  config {
+  }
+}
